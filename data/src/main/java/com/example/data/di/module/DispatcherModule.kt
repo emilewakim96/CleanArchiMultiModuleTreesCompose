@@ -1,7 +1,7 @@
-package com.example.cleanarchimultimoduletreescompose.di
+package com.example.data.di.module
 
-import com.example.domain.util.DefaultDispatchers
-import com.example.domain.util.DispatcherProvider
+import com.example.data.data_source.util.DefaultDispatchers
+import com.example.data.data_source.util.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

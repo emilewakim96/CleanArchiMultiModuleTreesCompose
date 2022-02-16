@@ -1,4 +1,4 @@
-package com.example.domain.util
+package com.example.data.data_source.util
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
