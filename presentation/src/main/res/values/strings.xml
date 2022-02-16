@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CleanArchiMultiModuleTreesCompose</string>
+    <string name="trees_list">Trees list</string>
+    <string name="tree_detail">Tree detail</string>
+    <string name="tree_name">Nom: %1$s </string>
+    <string name="tree_type">Espece: %1$s </string>
+    <string name="tree_height">Hauteur: %1$s </string>
+    <string name="tree_circumference">Circonference: %1$s </string>
+    <string name="tree_address">Address: %1$s </string>
+</resources>
