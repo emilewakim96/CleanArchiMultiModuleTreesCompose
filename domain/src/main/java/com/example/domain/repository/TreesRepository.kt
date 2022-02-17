@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.util.Resource
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 
 interface TreesRepository {
 

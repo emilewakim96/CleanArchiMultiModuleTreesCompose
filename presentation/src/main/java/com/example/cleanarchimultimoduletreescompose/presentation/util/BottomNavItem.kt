@@ -1,9 +1,9 @@
 package com.example.cleanarchimultimoduletreescompose.presentation.util
 
 import com.example.cleanarchimultimoduletreescompose.R
-import com.example.destinations.CoilImageScreenDestination
-import com.example.destinations.Destination
-import com.example.destinations.TreesListScreenDestination
+import com.example.cleanarchimultimoduletreescompose.presentation.destinations.CoilImageScreenDestination
+import com.example.cleanarchimultimoduletreescompose.presentation.destinations.Destination
+import com.example.cleanarchimultimoduletreescompose.presentation.destinations.TreesListScreenDestination
 
 sealed class BottomNavItem(var title: String, var icon: Int, var destination: Destination) {
     object Home : BottomNavItem(

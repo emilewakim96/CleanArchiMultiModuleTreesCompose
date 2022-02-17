@@ -1,7 +1,7 @@
 package com.example.data.data_source.remote
 
 import com.example.data.data_source.TreesDataSource
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 import com.example.data.data_source.remote.responses.mapRecordToTree
 import com.example.domain.util.Resource
 import javax.inject.Inject

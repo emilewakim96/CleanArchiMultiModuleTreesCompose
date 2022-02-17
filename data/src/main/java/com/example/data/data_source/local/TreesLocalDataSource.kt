@@ -1,7 +1,7 @@
 package com.example.data.data_source.local
 
 import com.example.data.data_source.TreesDataSource
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 import com.example.domain.util.Resource
 
 import kotlinx.coroutines.flow.first

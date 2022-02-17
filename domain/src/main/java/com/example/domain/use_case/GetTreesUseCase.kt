@@ -1,6 +1,6 @@
 package com.example.domain.use_case
 
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 import com.example.domain.repository.TreesRepository
 import com.example.domain.util.Resource
 

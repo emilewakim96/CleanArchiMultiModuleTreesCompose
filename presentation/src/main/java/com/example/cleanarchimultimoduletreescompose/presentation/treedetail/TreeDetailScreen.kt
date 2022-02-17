@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cleanarchimultimoduletreescompose.R
 import com.example.cleanarchimultimoduletreescompose.presentation.util.TreesTransitions
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 

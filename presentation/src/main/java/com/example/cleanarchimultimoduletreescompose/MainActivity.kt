@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.NavGraphs
+import com.example.cleanarchimultimoduletreescompose.presentation.NavGraphs
 import com.example.cleanarchimultimoduletreescompose.presentation.util.BottomNavItem
 import com.example.cleanarchimultimoduletreescompose.ui.theme.CleanArchiMultiModuleTreesComposeTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -43,13 +43,6 @@ fun MainScreenView() {
     val navHostEngine = rememberAnimatedNavHostEngine(
         navHostContentAlignment = Alignment.TopCenter,
         rootDefaultAnimations = RootNavGraphDefaultAnimations.ACCOMPANIST_FADING, //default `rootDefaultAnimations` means no animations
-//        defaultAnimationsForNestedNavGraph = mapOf(
-//            NavGraphs.settings to NestedNavGraphDefaultAnimations(
-//                enterTransition = { fadeIn(animationSpec = tween(2000)) },
-//                exitTransition = { fadeOut(animationSpec = tween(2000)) }
-//            ),
-//            NavGraphs.otherNestedGraph to NestedNavGraphDefaultAnimations.ACCOMPANIST_FADING
-//        ) // all other nav graphs not specified in this map, will get their animations from the `rootDefaultAnimations` above.
     )
     Scaffold(
         bottomBar = { BottomNavigation(navController = navController) }

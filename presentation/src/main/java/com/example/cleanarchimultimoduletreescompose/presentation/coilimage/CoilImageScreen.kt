@@ -1,4 +1,4 @@
-package com.example.cleanarchitreescompose.trees_feature.presentation.coilimage
+package com.example.cleanarchimultimoduletreescompose.presentation.coilimage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize

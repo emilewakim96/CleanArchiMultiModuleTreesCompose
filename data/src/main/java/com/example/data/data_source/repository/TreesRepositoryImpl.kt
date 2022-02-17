@@ -5,7 +5,7 @@ import com.example.data.data_source.local.TreesLocalDataSource
 import com.example.data.data_source.remote.TreesRemoteDataSource
 import com.example.domain.util.Resource
 import com.example.data.di.qualifier.LocalData
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 import com.example.domain.repository.TreesRepository
 import javax.inject.Inject
 

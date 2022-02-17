@@ -60,6 +60,5 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.4.1'
 
     //Module Data
-    implementation project(':common')
     implementation project(':domain')
 }

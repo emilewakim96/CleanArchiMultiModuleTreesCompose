@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 import kotlinx.coroutines.flow.Flow
 
 @Dao

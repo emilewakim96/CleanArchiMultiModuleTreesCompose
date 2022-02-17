@@ -1,6 +1,6 @@
 package com.example.data.data_source.remote.responses
 
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 
 data class Record(
     val datasetid: String?,

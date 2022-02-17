@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.use_case.TreesUseCases
 import com.example.data.data_source.util.DispatcherProvider
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

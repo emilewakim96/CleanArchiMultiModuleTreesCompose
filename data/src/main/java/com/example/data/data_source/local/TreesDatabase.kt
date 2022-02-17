@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.data.data_source.remote.typeconverter.FieldsTypeConverter
 import com.example.data.data_source.remote.typeconverter.GeometryTypeConverter
-import com.example.common.entity.Tree
+import com.example.domain.models.Tree
 
 @Database(
     entities = [Tree::class],

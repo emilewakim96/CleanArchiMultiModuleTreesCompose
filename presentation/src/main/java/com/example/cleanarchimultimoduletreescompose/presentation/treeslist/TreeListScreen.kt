@@ -1,4 +1,4 @@
-package com.example.cleanarchitreescompose.trees_feature.presentation.treeslist
+package com.example.cleanarchimultimoduletreescompose.presentation.treeslist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,9 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.cleanarchimultimoduletreescompose.R
-import com.example.cleanarchimultimoduletreescompose.presentation.treeslist.TreeListViewModel
-import com.example.common.entity.Tree
-import com.example.destinations.TreeDetailScreenDestination
+import com.example.cleanarchimultimoduletreescompose.presentation.destinations.TreeDetailScreenDestination
+import com.example.domain.models.Tree
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination

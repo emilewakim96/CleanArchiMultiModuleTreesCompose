@@ -3,8 +3,8 @@ package com.example.cleanarchimultimoduletreescompose.presentation.util
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.navigation.NavBackStackEntry
-import com.example.destinations.TreesListScreenDestination
-import com.example.navDestination
+import com.example.cleanarchimultimoduletreescompose.presentation.destinations.TreesListScreenDestination
+import com.example.cleanarchimultimoduletreescompose.presentation.navDestination
 import com.ramcosta.composedestinations.spec.DestinationStyle
 
 @OptIn(ExperimentalAnimationApi::class)
