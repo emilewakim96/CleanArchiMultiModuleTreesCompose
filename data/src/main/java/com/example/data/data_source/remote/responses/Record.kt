@@ -9,13 +9,3 @@ data class Record(
     val record_timestamp: String?,
     val recordid: String
 )
-
-
-fun mapRecordToTree(record: Record): Tree {
-    return Tree(
-        id = record.recordid,
-        adresse = record.fields?.adresse ?: "",
-        circonferenceencm = record.fields?.circonferenceencm ?: 0,
-        espece = record.fields?.espece ?: "",
-        hauteurenm = record.fields?.hauteurenm ?: 0)
-}
