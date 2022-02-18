@@ -1,8 +1,10 @@
 package com.example.data.data_source.repository
 
+import android.content.Context
 import com.example.data.di.qualifier.RemoteData
 import com.example.data.data_source.local.TreesLocalDataSource
 import com.example.data.data_source.remote.TreesRemoteDataSource
+import com.example.data.data_source.util.NetworkUtils
 import com.example.domain.util.Resource
 import com.example.data.di.qualifier.LocalData
 import com.example.domain.models.Tree
@@ -11,13 +13,15 @@ import javax.inject.Inject
 
 class TreesRepositoryImpl @Inject constructor(
     @LocalData private val localDataSource: TreesLocalDataSource,
-    @RemoteData private val remoteDataSource: TreesRemoteDataSource
+    @RemoteData private val remoteDataSource: TreesRemoteDataSource,
+    private val context: Context
 ): TreesRepository {
 
     private var cachedTrees: List<Tree> = listOf()
     private var cachedTreesIsDirty = false
 
     override suspend fun getTreesList(): Resource<List<Tree>> {
+        cachedTreesIsDirty = NetworkUtils.thereIsConnection(context)
         if (cachedTrees.isNotEmpty() && !cachedTreesIsDirty) {
             return Resource.Success(cachedTrees)
         }
@@ -33,10 +37,6 @@ class TreesRepositoryImpl @Inject constructor(
         localDataSource.insertTree(tree)
     }
 
-    override fun refreshTrees() {
-        cachedTreesIsDirty = true
-    }
-
     private suspend fun getAndSaveRemoteTrees(): Resource<List<Tree>> {
         val response = try {
             remoteDataSource.getTreesList().also {
@@ -44,8 +44,8 @@ class TreesRepositoryImpl @Inject constructor(
                     trees.forEach { tree ->
                         saveTree(tree)
                     }
-                    cachedTreesIsDirty = false
                     cachedTrees = trees
+                    cachedTreesIsDirty = false
                 }
             }
         } catch (e: Exception) {

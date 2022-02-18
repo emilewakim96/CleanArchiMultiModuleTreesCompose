@@ -1,5 +1,7 @@
 package com.example.data.di.module
 
+import android.app.Application
+import android.content.Context
 import com.example.data.data_source.TreesDataSource
 import com.example.data.data_source.local.TreeDao
 import com.example.data.data_source.local.TreesLocalDataSource
@@ -19,20 +21,17 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
-//    @Singleton
-//    @Provides
-//    fun provideTreesUseCases(repository: TreesRepository): TreesUseCases {
-//        return TreesUseCases(
-//            getTreesUseCase = GetTreesUseCase(repository)
-//        )
-//    }
-
     @Singleton
     @Provides
     fun provideTreesRepository(
         localDataSource: TreesLocalDataSource,
-        remoteDataSource: TreesRemoteDataSource
-    ): TreesRepository = TreesRepositoryImpl(localDataSource, remoteDataSource)
+        remoteDataSource: TreesRemoteDataSource,
+        context: Context
+    ): TreesRepository = TreesRepositoryImpl(localDataSource, remoteDataSource, context)
+
+    @Singleton
+    @Provides
+    fun provideContext(application: Application): Context = application.applicationContext
 
     @Singleton
     @Provides

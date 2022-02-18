@@ -8,6 +8,4 @@ interface TreesRepository {
     suspend fun getTreesList(): Resource<List<Tree>>
 
     suspend fun saveTree(tree: Tree)
-
-    fun refreshTrees()
 }
