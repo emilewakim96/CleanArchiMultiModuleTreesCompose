@@ -1,4 +1,4 @@
-package com.example.data.di.module
+package com.example.domain.di
 
 import com.example.domain.repository.TreesRepository
 import com.example.domain.use_case.GetTreesUseCase
