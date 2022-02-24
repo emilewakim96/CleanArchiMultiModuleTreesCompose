@@ -3,7 +3,7 @@ package com.example.data.di.module
 import android.app.Application
 import android.content.Context
 import com.example.data.data_source.TreesDataSource
-import com.example.data.data_source.local.TreeDao
+import com.example.data.data_source.local.helper.RealmDBOperations
 import com.example.data.data_source.local.TreesLocalDataSource
 import com.example.data.data_source.remote.TreesApi
 import com.example.data.data_source.remote.TreesRemoteDataSource
@@ -36,7 +36,7 @@ object RepositoryModule {
     @Singleton
     @Provides
     @LocalData
-    fun provideLocalDataSource(treesDao: TreeDao): TreesDataSource = TreesLocalDataSource(treesDao)
+    fun provideLocalDataSource(realmDBOperations: RealmDBOperations): TreesDataSource = TreesLocalDataSource(realmDBOperations)
 
     @Singleton
     @Provides
