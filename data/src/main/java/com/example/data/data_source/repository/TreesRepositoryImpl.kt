@@ -21,7 +21,7 @@ class TreesRepositoryImpl @Inject constructor(
     private var cachedTreesIsDirty = false
 
     override suspend fun getTreesList(): Resource<List<Tree>> {
-        cachedTreesIsDirty = NetworkUtils.thereIsConnection(context)
+        cachedTreesIsDirty = NetworkUtils.isInternetAvailable(context)
         if (cachedTrees.isNotEmpty() && !cachedTreesIsDirty) {
             return Resource.Success(cachedTrees)
         }
