@@ -1,6 +1,6 @@
 # CleanArchiMultiModuleTreesCompose
 
-A mini project using a public API to retrieve data about Trees using Multi Module Clean Architecture from remote source and persist cached data in Room DB.
+A mini project using a public API to retrieve data about Trees using Multi Module Clean Architecture from remote source and persist cached data in local DB.
 
 1) Master branch:
 - Presentation layer using JETPACK COMPOSE for the UI
@@ -22,3 +22,6 @@ A mini project using a public API to retrieve data about Trees using Multi Modul
 - Use cases
 - Repository pattern
 - Room DB
+
+3) Realm instead of Room branch:
+Same as master branch but use Realm DB instead of Room DB
