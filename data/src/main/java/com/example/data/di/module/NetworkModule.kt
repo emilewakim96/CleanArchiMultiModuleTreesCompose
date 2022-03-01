@@ -1,5 +1,8 @@
 package com.example.data.di.module
 
+import android.app.Application
+import android.content.Context
+import com.example.data.data_source.manager.ConnectionManager
 import com.example.data.data_source.remote.TreesApi
 import com.example.data.data_source.util.Constants
 import dagger.Module
@@ -38,4 +41,12 @@ object NetworkModule {
             .build()
             .create(TreesApi::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideContext(application: Application): Context = application.applicationContext
+
+    @Singleton
+    @Provides
+    fun provideConnectionManager(context: Context): ConnectionManager = ConnectionManager(context)
 }

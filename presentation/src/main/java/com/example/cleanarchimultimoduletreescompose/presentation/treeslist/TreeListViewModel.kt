@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cleanarchimultimoduletreescompose.presentation.base.BaseViewModel
+import com.example.data.data_source.manager.ConnectionManager
 import com.example.domain.use_case.TreesUseCases
 import com.example.data.data_source.util.DispatcherProvider
 import com.example.domain.models.Tree
@@ -15,8 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class TreeListViewModel @Inject constructor(
     private val treesUseCases: TreesUseCases,
-    private val dispatcher: DispatcherProvider
-) : ViewModel() {
+    private val dispatcher: DispatcherProvider,
+    connectionManager: ConnectionManager
+) : BaseViewModel(connectionManager) {
 
     var treesList = mutableStateListOf<Tree>()
     var loadError = mutableStateOf("")

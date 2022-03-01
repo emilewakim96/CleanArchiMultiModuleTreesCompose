@@ -1,10 +1,9 @@
 package com.example.data.data_source.repository
 
-import android.content.Context
 import com.example.data.di.qualifier.RemoteData
 import com.example.data.data_source.local.TreesLocalDataSource
+import com.example.data.data_source.manager.ConnectionManager
 import com.example.data.data_source.remote.TreesRemoteDataSource
-import com.example.data.data_source.util.NetworkUtils
 import com.example.domain.util.Resource
 import com.example.data.di.qualifier.LocalData
 import com.example.domain.models.Tree
@@ -14,14 +13,15 @@ import javax.inject.Inject
 class TreesRepositoryImpl @Inject constructor(
     @LocalData private val localDataSource: TreesLocalDataSource,
     @RemoteData private val remoteDataSource: TreesRemoteDataSource,
-    private val context: Context
+    private val connectionManager: ConnectionManager
 ): TreesRepository {
 
     private var cachedTrees: List<Tree> = listOf()
     private var cachedTreesIsDirty = false
 
     override suspend fun getTreesList(): Resource<List<Tree>> {
-        cachedTreesIsDirty = NetworkUtils.isInternetAvailable(context)
+        cachedTreesIsDirty = !connectionManager.offline
+
         if (cachedTrees.isNotEmpty() && !cachedTreesIsDirty) {
             return Resource.Success(cachedTrees)
         }
