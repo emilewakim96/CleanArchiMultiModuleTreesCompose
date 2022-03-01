@@ -9,54 +9,23 @@ import com.example.domain.util.Resource
 import com.example.data.di.qualifier.LocalData
 import com.example.domain.models.Tree
 import com.example.domain.repository.TreesRepository
+                    import com.example.domain.util.CachePolicy
 import javax.inject.Inject
 
 class TreesRepositoryImpl @Inject constructor(
     @LocalData private val localDataSource: TreesLocalDataSource,
     @RemoteData private val remoteDataSource: TreesRemoteDataSource,
     private val context: Context
-): TreesRepository {
+): TreesRepository(localDataSource, remoteDataSource) {
 
-    private var cachedTrees: List<Tree> = listOf()
-    private var cachedTreesIsDirty = false
+    private var cachePolicy: CachePolicy.Type? = null
 
     override suspend fun getTreesList(): Resource<List<Tree>> {
-        cachedTreesIsDirty = NetworkUtils.isInternetAvailable(context)
-        if (cachedTrees.isNotEmpty() && !cachedTreesIsDirty) {
-            return Resource.Success(cachedTrees)
+        cachePolicy = if (NetworkUtils.isInternetAvailable(context)) {
+            CachePolicy.Type.REFRESH
+        } else {
+            CachePolicy.Type.ALWAYS
         }
-        val remoteTrees = getAndSaveRemoteTrees()
-        return if (cachedTreesIsDirty)
-            remoteTrees
-        else {
-            getAndCacheLocalTrees()
-        }
-    }
-
-    override suspend fun saveTree(tree: Tree) {
-        localDataSource.insertTree(tree)
-    }
-
-    private suspend fun getAndSaveRemoteTrees(): Resource<List<Tree>> {
-        val response = try {
-            remoteDataSource.getTreesList().also {
-                it.data?.let { trees ->
-                    trees.forEach { tree ->
-                        saveTree(tree)
-                    }
-                    cachedTrees = trees
-                    cachedTreesIsDirty = false
-                }
-            }
-        } catch (e: Exception) {
-            return Resource.Error("An unknown error occured.")
-        }
-        return response
-    }
-
-    private suspend fun getAndCacheLocalTrees(): Resource<List<Tree>> {
-        return localDataSource.getTreesList().also {
-            cachedTrees = it.data ?: listOf()
-        }
+        return fetch(cachePolicy = CachePolicy(type = cachePolicy)) ?: Resource.Success(emptyList())
     }
 }
