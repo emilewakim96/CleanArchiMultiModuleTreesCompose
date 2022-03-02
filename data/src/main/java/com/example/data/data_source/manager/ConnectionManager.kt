@@ -3,6 +3,7 @@ package com.example.data.data_source.manager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
+import android.net.NetworkCapabilities
 import android.os.Build
 
 class ConnectionManager(private val context: Context) {
@@ -23,7 +24,8 @@ class ConnectionManager(private val context: Context) {
     private val listeners = mutableListOf<ConnectionManagerListener>()
 
     init {
-        getConnection()
+        isOffline()
+        registerNetworkCallback()
     }
 
     fun addListener(listener: ConnectionManagerListener) {
@@ -35,8 +37,7 @@ class ConnectionManager(private val context: Context) {
         listeners.remove(listener)
     }
 
-    @Suppress("DEPRECATION")
-    private fun getConnection() {
+    private fun registerNetworkCallback() {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -51,20 +52,39 @@ class ConnectionManager(private val context: Context) {
                     }
 
                 }
-
                 override fun onLost(network: Network) {
                     offline = true
                     notifyListeners(ConnectionManagerListener.ConnectionState.OFFLINE)
                 }
             })
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun isOffline() {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            cm?.run {
+                cm.getNetworkCapabilities(cm.activeNetwork)?.run {
+                    offline = when {
+                        hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> false
+                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> false
+                        hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> false
+                        else -> true
+                    }
+                }
+            }
         } else {
-            connectivityManager.run {
-                connectivityManager.activeNetworkInfo?.run {
-                    offline = !(type == ConnectivityManager.TYPE_WIFI || type == ConnectivityManager.TYPE_MOBILE)
+            cm?.run {
+                cm.activeNetworkInfo?.run {
+                    if (type == ConnectivityManager.TYPE_WIFI) {
+                        offline = false
+                    } else if (type == ConnectivityManager.TYPE_MOBILE) {
+                        offline = false
+                    }
                 }
             }
         }
-
     }
 
     private fun notifyListeners(state: ConnectionManagerListener.ConnectionState) {

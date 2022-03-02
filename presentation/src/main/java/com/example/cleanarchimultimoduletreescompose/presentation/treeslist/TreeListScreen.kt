@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,6 +53,7 @@ fun TreeList(navigator: DestinationsNavigator,
 
     val loadError = viewModel.loadError.value  /* no need to use remember for viewModel variables */
     val isLoading = viewModel.isLoading.value
+    val isOffline = remember { viewModel.isOffline }.value
 
     val swipeRefreshState = rememberSwipeRefreshState(viewModel.isLoading.value)
 
@@ -61,10 +63,19 @@ fun TreeList(navigator: DestinationsNavigator,
             viewModel.loadTreeList()
         },
     ) {
-        LazyColumn(modifier = Modifier.padding(bottom = 50.dp)) {
-            items(viewModel.treesList) { tree ->
-                TreeCard(navigator = navigator, tree = tree)
-                Spacer(modifier = Modifier.height(5.dp))
+        Column {
+            if (isOffline) {
+                Text(
+                    text = "You are currently offline",
+                    color = MaterialTheme.colors.error,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp)
+            }
+            LazyColumn(modifier = Modifier.padding(bottom = 50.dp)) {
+                items(viewModel.treesList) { tree ->
+                    TreeCard(navigator = navigator, tree = tree)
+                    Spacer(modifier = Modifier.height(5.dp))
+                }
             }
         }
     }
