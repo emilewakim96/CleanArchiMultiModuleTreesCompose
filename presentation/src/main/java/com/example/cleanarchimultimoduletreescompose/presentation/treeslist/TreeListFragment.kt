@@ -34,7 +34,7 @@ class TreeListFragment: BaseFragment(), TreeListAdapter.OnItemClickListener {
         //Get the view model instance and pass it to the binding implementation
         binding.uiState = viewModel.uiState
 
-        //When using livedata inside binding implementation, we should specify the lifecycle owner
+        //When using livedata/flows inside binding implementation, we should specify the lifecycle owner
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         //Set adapter, divider and default animator to the recycler view

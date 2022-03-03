@@ -13,7 +13,11 @@ class TreeListAdapter(private val itemList: MutableList<Tree> = mutableListOf(),
                       val listener: OnItemClickListener
 ) : RecyclerView.Adapter<TreeListAdapter.TreeListViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TreeListViewHolder = TreeListViewHolder.from(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TreeListViewHolder {
+        val binding = DataBindingUtil.inflate<TreeItemBinding>(LayoutInflater.from(parent.context),
+            R.layout.layout_tree_item, parent, false)
+        return TreeListViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: TreeListViewHolder, position: Int) {
         return holder.bind(itemList[position], listener)
@@ -24,14 +28,6 @@ class TreeListAdapter(private val itemList: MutableList<Tree> = mutableListOf(),
             binding.tree = tree
             binding.treeItemClick = clickListener
             binding.executePendingBindings()
-        }
-
-        companion object {
-            fun from(parent: ViewGroup): TreeListViewHolder {
-                val binding = DataBindingUtil.inflate<TreeItemBinding>(LayoutInflater.from(parent.context),
-                    R.layout.layout_tree_item, parent, false)
-                return TreeListViewHolder(binding)
-            }
         }
     }
 

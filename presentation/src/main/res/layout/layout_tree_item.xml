@@ -9,7 +9,6 @@
         <variable
             name="treeItemClick"
             type="com.example.cleanarchimultimoduletreescompose.presentation.treeslist.TreeListAdapter.OnItemClickListener" />
-        <import type="com.example.cleanarchimultimoduletreescompose.presentation.util.BindingUtilsKt" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
