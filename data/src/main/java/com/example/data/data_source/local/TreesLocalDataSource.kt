@@ -1,7 +1,7 @@
 package com.example.data.data_source.local
 
-import com.example.data.data_source.TreesDataSource
 import com.example.domain.models.Tree
+import com.example.domain.repository.TreesRepository
 import com.example.domain.util.Resource
 
 import kotlinx.coroutines.flow.first
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class TreesLocalDataSource @Inject constructor(
     private val treesDao: TreeDao
-): TreesDataSource {
+): TreesRepository {
 
     override suspend fun getTreesList(): Resource<List<Tree>> {
         val response = try {
@@ -20,7 +20,7 @@ class TreesLocalDataSource @Inject constructor(
         return Resource.Success(response.first())
     }
 
-    override suspend fun insertTree(tree: Tree) {
-        treesDao.insertTree(tree)
+    override suspend fun saveTree(tree: Tree) {
+        treesDao.saveTree(tree)
     }
 }

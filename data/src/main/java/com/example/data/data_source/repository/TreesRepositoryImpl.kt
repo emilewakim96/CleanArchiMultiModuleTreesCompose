@@ -34,7 +34,7 @@ class TreesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveTree(tree: Tree) {
-        localDataSource.insertTree(tree)
+        localDataSource.saveTree(tree)
     }
 
     private suspend fun getAndSaveRemoteTrees(): Resource<List<Tree>> {

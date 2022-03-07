@@ -1,14 +1,14 @@
 package com.example.data.data_source.remote
 
-import com.example.data.data_source.TreesDataSource
 import com.example.data.data_source.remote.mappers.mapRecordToTree
 import com.example.domain.models.Tree
+import com.example.domain.repository.TreesRepository
 import com.example.domain.util.Resource
 import javax.inject.Inject
 
 class TreesRemoteDataSource @Inject constructor(
     private val api: TreesApi
-): TreesDataSource {
+): TreesRepository {
 
     override suspend fun getTreesList(): Resource<List<Tree>> {
         val response = try {
@@ -24,5 +24,5 @@ class TreesRemoteDataSource @Inject constructor(
         }
     }
 
-    override suspend fun insertTree(tree: Tree) {}
+    override suspend fun saveTree(tree: Tree) {}
 }

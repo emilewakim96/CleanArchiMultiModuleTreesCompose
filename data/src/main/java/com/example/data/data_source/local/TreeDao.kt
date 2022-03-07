@@ -14,6 +14,6 @@ interface TreeDao {
     fun getTrees(): Flow<List<Tree>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTree(tree: Tree)
+    suspend fun saveTree(tree: Tree)
 
 }
