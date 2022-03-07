@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cleanarchimultimoduletreescompose.R
 import com.example.cleanarchimultimoduletreescompose.presentation.util.TreesTransitions
-import com.example.domain.models.Tree
+import com.example.domain.entities.TreeEntity
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination(route = "trees_screen/details", style = TreesTransitions::class)
 @Composable
-fun TreeDetailScreen(navigator: DestinationsNavigator, tree: Tree) {
+fun TreeDetailScreen(navigator: DestinationsNavigator, tree: TreeEntity) {
     val context = LocalContext.current
     Surface(
         color = MaterialTheme.colors.background,
@@ -59,7 +59,7 @@ fun TreeDetailScreen(navigator: DestinationsNavigator, tree: Tree) {
 }
 
 @Composable
-fun TreeDetailsCard(tree: Tree) {
+fun TreeDetailsCard(tree: TreeEntity) {
     val context = LocalContext.current
     Card(
         elevation = 8.dp,

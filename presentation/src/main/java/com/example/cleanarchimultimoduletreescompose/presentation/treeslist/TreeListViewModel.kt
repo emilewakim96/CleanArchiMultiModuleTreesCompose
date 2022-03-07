@@ -2,13 +2,12 @@ package com.example.cleanarchimultimoduletreescompose.presentation.treeslist
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cleanarchimultimoduletreescompose.presentation.base.BaseViewModel
 import com.example.data.data_source.manager.ConnectionManager
 import com.example.domain.use_case.TreesUseCases
 import com.example.data.data_source.util.DispatcherProvider
-import com.example.domain.models.Tree
+import com.example.domain.entities.TreeEntity
 import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,7 +20,7 @@ class TreeListViewModel @Inject constructor(
     connectionManager: ConnectionManager
 ) : BaseViewModel(connectionManager) {
 
-    var treesList = mutableStateListOf<Tree>()
+    var treesList = mutableStateListOf<TreeEntity>()
     var loadError = mutableStateOf("")
     var isLoading = mutableStateOf(false)
 
