@@ -8,9 +8,9 @@ import javax.inject.Inject
 
 class TreesRemoteDataSource @Inject constructor(
     private val api: TreesApi
-): TreesRepository {
+) {
 
-    override suspend fun getTreesList(): Resource<List<TreeEntity>> {
+    suspend fun getTreesList(): Resource<List<TreeEntity>> {
         val response = try {
             api.getTreesList()
         } catch(e: Exception) {
@@ -23,6 +23,4 @@ class TreesRemoteDataSource @Inject constructor(
             Resource.Error("Response should not be null.")
         }
     }
-
-    override suspend fun saveTree(tree: TreeEntity) {}
 }

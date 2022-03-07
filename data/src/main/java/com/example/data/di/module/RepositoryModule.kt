@@ -31,10 +31,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     @LocalData
-    fun provideLocalDataSource(treesDao: TreeDao): TreesRepository = TreesLocalDataSource(treesDao)
+    fun provideLocalDataSource(treesDao: TreeDao): TreesLocalDataSource = TreesLocalDataSource(treesDao)
 
     @Singleton
     @Provides
     @RemoteData
-    fun provideRemoteDataSource(treesApi: TreesApi): TreesRepository = TreesRemoteDataSource(treesApi)
+    fun provideRemoteDataSource(treesApi: TreesApi): TreesRemoteDataSource = TreesRemoteDataSource(treesApi)
 }

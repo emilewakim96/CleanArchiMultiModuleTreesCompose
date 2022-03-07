@@ -11,9 +11,9 @@ import javax.inject.Inject
 
 class TreesLocalDataSource @Inject constructor(
     private val treesDao: TreeDao
-): TreesRepository {
+) {
 
-    override suspend fun getTreesList(): Resource<List<TreeEntity>> {
+    suspend fun getTreesList(): Resource<List<TreeEntity>> {
         val response = try {
             treesDao.getTrees()
         } catch(e: Exception) {
@@ -22,7 +22,7 @@ class TreesLocalDataSource @Inject constructor(
         return Resource.Success(response.first().map { it.mapToEntity() })
     }
 
-    override suspend fun saveTree(tree: TreeEntity) {
+    suspend fun saveTree(tree: TreeEntity) {
         treesDao.saveTree(tree.mapToModel())
     }
 }
