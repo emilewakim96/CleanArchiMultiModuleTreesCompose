@@ -25,10 +25,9 @@ class TreesRepositoryImpl @Inject constructor(
         if (cachedTrees.isNotEmpty() && !cachedTreesIsDirty) {
             return Resource.Success(cachedTrees)
         }
-        val remoteTrees = getAndSaveRemoteTrees()
-        return if (cachedTreesIsDirty)
-            remoteTrees
-        else {
+        return if (cachedTreesIsDirty) {
+            getAndSaveRemoteTrees()
+        } else {
             getAndCacheLocalTrees()
         }
     }
