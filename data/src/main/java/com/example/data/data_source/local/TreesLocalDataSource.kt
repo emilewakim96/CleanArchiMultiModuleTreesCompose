@@ -10,12 +10,7 @@ class TreesLocalDataSource @Inject constructor(
 ) {
 
     suspend fun getTreesList(): List<Tree> {
-        val response = try {
-            treesDao.getTrees().first()
-        } catch(e: Exception) {
-            throw Throwable(e.message)
-        }
-        return response
+       return treesDao.getTrees().first()
     }
 
     suspend fun saveTree(tree: Tree) {

@@ -8,12 +8,7 @@ class TreesRemoteDataSource @Inject constructor(
     private val api: TreesApi
 ) {
 
-    suspend fun getTreesList(): List<Tree> {
-        val response = try {
-            api.getTreesList().records?.map { it.mapRecordToTree() }
-        } catch(e: Exception) {
-            throw Throwable(e.message)
-        }
-        return response ?: throw Throwable("Invalid response")
+    suspend fun getTreesList(): List<Tree>? {
+        return api.getTreesList().records?.map { it.mapRecordToTree() }
     }
 }

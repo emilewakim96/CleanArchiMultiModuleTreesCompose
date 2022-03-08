@@ -13,13 +13,13 @@ class TreesRepositoryImpl @Inject constructor(
     private val isOffline: Boolean
 ): TreesRepository {
 
-    private var cachedTrees: List<Tree> = listOf()
+    private var cachedTrees: List<Tree>? = listOf()
     private var cachedTreesIsDirty = false
 
-    override suspend fun getTreesList(): List<Tree> {
+    override suspend fun getTreesList(): List<Tree>? {
         cachedTreesIsDirty = !isOffline
 
-        if (cachedTrees.isNotEmpty() && !cachedTreesIsDirty) {
+        if (!cachedTrees.isNullOrEmpty() && !cachedTreesIsDirty) {
             return cachedTrees
         }
         return if (cachedTreesIsDirty)
@@ -33,19 +33,14 @@ class TreesRepositoryImpl @Inject constructor(
         localDataSource.saveTree(tree)
     }
 
-    private suspend fun getAndSaveRemoteTrees(): List<Tree> {
-        val response = try {
-            remoteDataSource.getTreesList().also { trees ->
-                trees.forEach { tree ->
+    private suspend fun getAndSaveRemoteTrees(): List<Tree>? {
+        return remoteDataSource.getTreesList().also { trees ->
+                trees?.forEach { tree ->
                     saveTree(tree)
                 }
                 cachedTrees = trees
                 cachedTreesIsDirty = false
             }
-        } catch (e: Exception) {
-            throw Throwable(e.message)
-        }
-        return response
     }
 
     private suspend fun getAndCacheLocalTrees(): List<Tree> {

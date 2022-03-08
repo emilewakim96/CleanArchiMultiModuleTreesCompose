@@ -7,8 +7,9 @@ import com.example.cleanarchimultimoduletreescompose.presentation.base.BaseViewM
 import com.example.data.data_source.util.DispatcherProvider
 import com.example.domain.use_case.TreesUseCases
 import com.example.domain.entities.TreeEntity
+import com.example.domain.errorHandler.showErrorMessage
 import com.example.domain.util.Resource
-import com.example.manager.ConnectionManager
+import com.example.domain.manager.ConnectionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,7 +42,7 @@ class TreeListViewModel @Inject constructor(
                     isLoading.value = false
                 }
                 else -> {
-                    loadError.value = result.message!!
+                    loadError.value = result.error?.showErrorMessage() ?: "Invalid response"
                     isLoading.value = false
                 }
             }
