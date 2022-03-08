@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface TreeDao {
 
     @Query("SELECT * FROM tree")
-    fun getTrees(): Flow<List<Tree>>
+    fun getTrees(): List<Tree>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveTree(tree: Tree)

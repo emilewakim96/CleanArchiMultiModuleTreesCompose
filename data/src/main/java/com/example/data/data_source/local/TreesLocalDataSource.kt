@@ -13,13 +13,8 @@ class TreesLocalDataSource @Inject constructor(
     private val treesDao: TreeDao
 ) {
 
-    suspend fun getTreesList(): Resource<List<TreeEntity>> {
-        val response = try {
-            treesDao.getTrees()
-        } catch(e: Exception) {
-            return Resource.Error("An unknown error occured.")
-        }
-        return Resource.Success(response.first().map { it.mapToEntity() })
+    suspend fun getTreesList(): List<TreeEntity> {
+        return treesDao.getTrees().map { it.mapToEntity() }
     }
 
     suspend fun saveTree(tree: TreeEntity) {
