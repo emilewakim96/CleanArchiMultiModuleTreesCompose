@@ -19,11 +19,11 @@ class TreesRepositoryImpl @Inject constructor(
     private var cachedTrees: List<TreeEntity> = listOf()
     private var cachedTreesIsDirty = false
 
-    override suspend fun getTreesList(): Resource<List<TreeEntity>> {
+    override suspend fun getTreesList(): List<TreeEntity> {
         cachedTreesIsDirty = !connectionManager.offline
 
         if (cachedTrees.isNotEmpty() && !cachedTreesIsDirty) {
-            return Resource.Success(cachedTrees)
+            return cachedTrees
         }
         val remoteTrees = getAndSaveRemoteTrees()
         return if (cachedTreesIsDirty)
@@ -37,26 +37,24 @@ class TreesRepositoryImpl @Inject constructor(
         localDataSource.saveTree(tree)
     }
 
-    private suspend fun getAndSaveRemoteTrees(): Resource<List<TreeEntity>> {
+    private suspend fun getAndSaveRemoteTrees(): List<TreeEntity> {
         val response = try {
-            remoteDataSource.getTreesList().also {
-                it.data?.let { trees ->
-                    trees.forEach { tree ->
-                        saveTree(tree)
-                    }
-                    cachedTrees = trees
-                    cachedTreesIsDirty = false
+            remoteDataSource.getTreesList().also { trees ->
+                trees.forEach { tree ->
+                    saveTree(tree)
                 }
+                cachedTrees = trees
+                cachedTreesIsDirty = false
             }
         } catch (e: Exception) {
-            return Resource.Error("An unknown error occured.")
+            throw Throwable(e.message)
         }
         return response
     }
 
-    private suspend fun getAndCacheLocalTrees(): Resource<List<TreeEntity>> {
+    private suspend fun getAndCacheLocalTrees(): List<TreeEntity> {
         return localDataSource.getTreesList().also {
-            cachedTrees = it.data ?: listOf()
+            cachedTrees = it
         }
     }
 }

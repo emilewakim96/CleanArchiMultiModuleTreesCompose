@@ -2,27 +2,18 @@ package com.example.data.data_source.remote
 
 import com.example.data.data_source.remote.mappers.mapRecordToTreeEntity
 import com.example.domain.entities.TreeEntity
-import com.example.domain.repository.TreesRepository
-import com.example.domain.util.Resource
 import javax.inject.Inject
 
 class TreesRemoteDataSource @Inject constructor(
     private val api: TreesApi
-): TreesRepository {
+) {
 
-    override suspend fun getTreesList(): Resource<List<TreeEntity>> {
+    suspend fun getTreesList(): List<TreeEntity> {
         val response = try {
-            api.getTreesList()
+            api.getTreesList().records?.map { it.mapRecordToTreeEntity() }
         } catch(e: Exception) {
-            return Resource.Error("An unknown error occured.")
+            throw Throwable(e.message)
         }
-        val trees = response.records?.map { it.mapRecordToTreeEntity() }
-        return if (trees != null) {
-            Resource.Success(trees)
-        } else {
-            Resource.Error("Response should not be null.")
-        }
+        return response ?: throw Throwable("Invalid response")
     }
-
-    override suspend fun saveTree(tree: TreeEntity) {}
 }
