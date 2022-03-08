@@ -1,4 +1,4 @@
-package com.example.data.data_source.manager
+package com.example.manager
 
 import android.content.Context
 import android.net.ConnectivityManager

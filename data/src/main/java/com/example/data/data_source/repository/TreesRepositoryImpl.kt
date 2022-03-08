@@ -2,42 +2,38 @@ package com.example.data.data_source.repository
 
 import com.example.data.di.qualifier.RemoteData
 import com.example.data.data_source.local.TreesLocalDataSource
-import com.example.data.data_source.manager.ConnectionManager
 import com.example.data.data_source.remote.TreesRemoteDataSource
-import com.example.domain.util.Resource
+import com.example.data.data_source.remote.responses.Tree
 import com.example.data.di.qualifier.LocalData
-import com.example.domain.entities.TreeEntity
-import com.example.domain.repository.TreesRepository
 import javax.inject.Inject
 
 class TreesRepositoryImpl @Inject constructor(
     @LocalData private val localDataSource: TreesLocalDataSource,
     @RemoteData private val remoteDataSource: TreesRemoteDataSource,
-    private val connectionManager: ConnectionManager
+    private val isOffline: Boolean
 ): TreesRepository {
 
-    private var cachedTrees: List<TreeEntity> = listOf()
+    private var cachedTrees: List<Tree> = listOf()
     private var cachedTreesIsDirty = false
 
-    override suspend fun getTreesList(): List<TreeEntity> {
-        cachedTreesIsDirty = !connectionManager.offline
+    override suspend fun getTreesList(): List<Tree> {
+        cachedTreesIsDirty = !isOffline
 
         if (cachedTrees.isNotEmpty() && !cachedTreesIsDirty) {
             return cachedTrees
         }
-        val remoteTrees = getAndSaveRemoteTrees()
         return if (cachedTreesIsDirty)
-            remoteTrees
+            getAndSaveRemoteTrees()
         else {
             getAndCacheLocalTrees()
         }
     }
 
-    override suspend fun saveTree(tree: TreeEntity) {
+    override suspend fun saveTree(tree: Tree) {
         localDataSource.saveTree(tree)
     }
 
-    private suspend fun getAndSaveRemoteTrees(): List<TreeEntity> {
+    private suspend fun getAndSaveRemoteTrees(): List<Tree> {
         val response = try {
             remoteDataSource.getTreesList().also { trees ->
                 trees.forEach { tree ->
@@ -52,7 +48,7 @@ class TreesRepositoryImpl @Inject constructor(
         return response
     }
 
-    private suspend fun getAndCacheLocalTrees(): List<TreeEntity> {
+    private suspend fun getAndCacheLocalTrees(): List<Tree> {
         return localDataSource.getTreesList().also {
             cachedTrees = it
         }

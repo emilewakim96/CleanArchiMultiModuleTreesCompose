@@ -1,14 +1,15 @@
-package com.example.data.di.module
+package com.example.domain.di
 
+import android.content.Context
 import com.example.data.data_source.local.TreeDao
 import com.example.data.data_source.local.TreesLocalDataSource
-import com.example.data.data_source.manager.ConnectionManager
+import com.example.manager.ConnectionManager
 import com.example.data.data_source.remote.TreesApi
 import com.example.data.data_source.remote.TreesRemoteDataSource
 import com.example.data.data_source.repository.TreesRepositoryImpl
 import com.example.data.di.qualifier.LocalData
 import com.example.data.di.qualifier.RemoteData
-import com.example.domain.repository.TreesRepository
+import com.example.data.data_source.repository.TreesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,8 +26,11 @@ object RepositoryModule {
         localDataSource: TreesLocalDataSource,
         remoteDataSource: TreesRemoteDataSource,
         connectionManager: ConnectionManager
-    ): TreesRepository = TreesRepositoryImpl(localDataSource, remoteDataSource, connectionManager)
+    ): TreesRepository = TreesRepositoryImpl(localDataSource, remoteDataSource, connectionManager.offline)
 
+    @Singleton
+    @Provides
+    fun provideConnectionManager(context: Context): ConnectionManager = ConnectionManager(context)
 
     @Singleton
     @Provides

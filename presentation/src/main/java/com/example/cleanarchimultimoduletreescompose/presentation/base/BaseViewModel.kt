@@ -2,7 +2,7 @@ package com.example.cleanarchimultimoduletreescompose.presentation.base
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.data.data_source.manager.ConnectionManager
+import com.example.manager.ConnectionManager
 
 open class BaseViewModel(
     private val connectionManager: ConnectionManager

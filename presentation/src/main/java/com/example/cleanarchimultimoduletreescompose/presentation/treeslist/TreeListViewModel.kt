@@ -4,11 +4,11 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.cleanarchimultimoduletreescompose.presentation.base.BaseViewModel
-import com.example.data.data_source.manager.ConnectionManager
-import com.example.domain.use_case.TreesUseCases
 import com.example.data.data_source.util.DispatcherProvider
+import com.example.domain.use_case.TreesUseCases
 import com.example.domain.entities.TreeEntity
 import com.example.domain.util.Resource
+import com.example.manager.ConnectionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

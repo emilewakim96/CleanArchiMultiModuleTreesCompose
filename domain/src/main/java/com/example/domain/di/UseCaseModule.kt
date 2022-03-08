@@ -1,6 +1,6 @@
 package com.example.domain.di
 
-import com.example.domain.repository.TreesRepository
+import com.example.data.data_source.repository.TreesRepository
 import com.example.domain.use_case.GetTreesUseCase
 import com.example.domain.use_case.TreesUseCases
 import dagger.Module

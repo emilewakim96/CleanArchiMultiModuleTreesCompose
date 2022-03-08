@@ -1,4 +1,4 @@
-package com.example.data.di.module
+package com.example.domain.di
 
 import com.example.data.data_source.util.DefaultDispatchers
 import com.example.data.data_source.util.DispatcherProvider
