@@ -64,7 +64,20 @@ class TreeListViewModel @Inject constructor(
     }
 
     private fun removeTreeFromList(tree: TreeEntity) {
-        treesList.remove(tree)
+        viewModelScope.launch(dispatcher.main) {
+            isLoading.value = true
+            when(val result = treesUseCases.deleteTreeUseCase(tree)) {
+                is Resource.Success -> {
+                    isLoading.value = false
+                    loadError.value = ""
+                    treesList.remove(tree)
+                }
+                else -> {
+                    isLoading.value = false
+                    loadError.value = result.error?.showErrorMessage() ?: "Invalid response"
+                }
+            }
+        }
     }
 
     override fun onCleared() {
