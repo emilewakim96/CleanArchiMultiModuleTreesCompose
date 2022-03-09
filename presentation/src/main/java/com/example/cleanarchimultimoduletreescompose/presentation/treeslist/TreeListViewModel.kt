@@ -6,12 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.cleanarchimultimoduletreescompose.presentation.base.BaseViewModel
 import com.example.cleanarchimultimoduletreescompose.presentation.event.RxBus
 import com.example.cleanarchimultimoduletreescompose.presentation.event.TreeEvents
+import com.example.common.managers.ConnectionManager
 import com.example.data.data_source.util.DispatcherProvider
 import com.example.domain.use_case.TreesUseCases
 import com.example.domain.entities.TreeEntity
 import com.example.domain.errorHandler.showErrorMessage
 import com.example.domain.util.Resource
-import com.example.domain.manager.ConnectionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.launch

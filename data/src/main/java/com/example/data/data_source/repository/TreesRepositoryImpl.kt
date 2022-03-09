@@ -1,5 +1,6 @@
 package com.example.data.data_source.repository
 
+import com.example.common.managers.ConnectionManager
 import com.example.data.di.qualifier.RemoteData
 import com.example.data.data_source.local.TreesLocalDataSource
 import com.example.data.data_source.remote.TreesRemoteDataSource
@@ -10,14 +11,14 @@ import javax.inject.Inject
 class TreesRepositoryImpl @Inject constructor(
     @LocalData private val localDataSource: TreesLocalDataSource,
     @RemoteData private val remoteDataSource: TreesRemoteDataSource,
-    private val isOffline: Boolean
+    private val connectionManager: ConnectionManager
 ): TreesRepository {
 
     private var cachedTrees: List<Tree>? = listOf()
     private var cachedTreesIsDirty = false
 
     override suspend fun getTreesList(): List<Tree>? {
-        cachedTreesIsDirty = !isOffline
+        cachedTreesIsDirty = !connectionManager.offline
 
         if (!cachedTrees.isNullOrEmpty() && !cachedTreesIsDirty) {
             return cachedTrees

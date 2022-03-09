@@ -1,4 +1,4 @@
-package com.example.domain.manager
+package com.example.common.managers
 
 import android.content.Context
 import android.net.ConnectivityManager
