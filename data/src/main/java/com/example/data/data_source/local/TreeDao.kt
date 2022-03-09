@@ -1,9 +1,6 @@
 package com.example.data.data_source.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.data.data_source.remote.responses.Tree
 import kotlinx.coroutines.flow.Flow
 
@@ -16,4 +13,6 @@ interface TreeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveTree(tree: Tree)
 
+    @Query("DELETE FROM tree WHERE id= :tree_id")
+    suspend fun deleteTree(tree_id: String)
 }

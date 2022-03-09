@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.cleanarchimultimoduletreescompose.presentation.base.BaseViewModel
+import com.example.cleanarchimultimoduletreescompose.presentation.event.RxBus
+import com.example.cleanarchimultimoduletreescompose.presentation.event.TreeEvents
 import com.example.data.data_source.util.DispatcherProvider
 import com.example.domain.use_case.TreesUseCases
 import com.example.domain.entities.TreeEntity
@@ -11,6 +13,7 @@ import com.example.domain.errorHandler.showErrorMessage
 import com.example.domain.util.Resource
 import com.example.domain.manager.ConnectionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,8 +28,18 @@ class TreeListViewModel @Inject constructor(
     var loadError = mutableStateOf("")
     var isLoading = mutableStateOf(false)
 
+    private var deleteTreeDisposable: Disposable? = null
+
     init {
         loadTreeList()
+
+        deleteTreeDisposable = RxBus.publishEventObservable
+            .ofType(TreeEvents::class.java)
+            .subscribe { event ->
+                if (event is TreeEvents.OnDelete) {
+                    removeTreeFromList(event.tree)
+                }
+            }
     }
 
     fun loadTreeList() {
@@ -36,6 +49,7 @@ class TreeListViewModel @Inject constructor(
                 is Resource.Success -> {
                     val trees = result.data
                     trees?.let {
+                        treesList.clear()
                         treesList.addAll(it)
                     }
                     loadError.value = ""
@@ -47,5 +61,14 @@ class TreeListViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun removeTreeFromList(tree: TreeEntity) {
+        treesList.remove(tree)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        deleteTreeDisposable?.dispose()
     }
 }

@@ -16,4 +16,8 @@ class TreesLocalDataSource @Inject constructor(
     suspend fun saveTree(tree: Tree) {
         treesDao.saveTree(tree)
     }
+
+    suspend fun deleteTree(tree: Tree) {
+        treesDao.deleteTree(tree.id)
+    }
 }

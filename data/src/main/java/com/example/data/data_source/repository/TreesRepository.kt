@@ -6,5 +6,7 @@ interface TreesRepository {
 
     suspend fun getTreesList(): List<Tree>?
 
-    suspend fun saveTree(tree: Tree)
+    suspend fun saveTreeInDB(tree: Tree)
+
+    suspend fun deleteTreeFromDB(tree: Tree)
 }

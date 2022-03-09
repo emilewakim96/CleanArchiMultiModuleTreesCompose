@@ -29,18 +29,22 @@ class TreesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveTree(tree: Tree) {
+    override suspend fun saveTreeInDB(tree: Tree) {
         localDataSource.saveTree(tree)
     }
 
     private suspend fun getAndSaveRemoteTrees(): List<Tree>? {
         return remoteDataSource.getTreesList().also { trees ->
                 trees?.forEach { tree ->
-                    saveTree(tree)
+                    saveTreeInDB(tree)
                 }
                 cachedTrees = trees
                 cachedTreesIsDirty = false
             }
+    }
+
+    override suspend fun deleteTreeFromDB(tree: Tree) {
+        localDataSource.deleteTree(tree)
     }
 
     private suspend fun getAndCacheLocalTrees(): List<Tree> {

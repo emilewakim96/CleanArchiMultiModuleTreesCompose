@@ -1,0 +1,3 @@
+package com.example.cleanarchimultimoduletreescompose.presentation.event
+
+interface Event
