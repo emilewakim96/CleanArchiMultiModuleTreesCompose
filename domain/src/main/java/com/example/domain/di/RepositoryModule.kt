@@ -1,7 +1,7 @@
 package com.example.domain.di
 
 import android.content.Context
-import com.example.common.managers.ConnectionManager
+import com.example.domain.managers.ConnectionManager
 import com.example.data.data_source.local.TreeDao
 import com.example.data.data_source.local.TreesLocalDataSource
 import com.example.data.data_source.remote.TreesApi
@@ -24,9 +24,8 @@ object RepositoryModule {
     @Provides
     fun provideTreesRepository(
         localDataSource: TreesLocalDataSource,
-        remoteDataSource: TreesRemoteDataSource,
-        connectionManager: ConnectionManager
-    ): TreesRepository = TreesRepositoryImpl(localDataSource, remoteDataSource, connectionManager)
+        remoteDataSource: TreesRemoteDataSource
+    ): TreesRepository = TreesRepositoryImpl(localDataSource, remoteDataSource)
 
     @Singleton
     @Provides

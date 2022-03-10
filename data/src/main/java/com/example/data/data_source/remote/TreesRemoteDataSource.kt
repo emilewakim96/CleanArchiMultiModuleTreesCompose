@@ -11,4 +11,8 @@ class TreesRemoteDataSource @Inject constructor(
     suspend fun getTreesList(): List<Tree>? {
         return api.getTreesList().records?.map { it.mapRecordToTree() }
     }
+
+    suspend fun forceGetTreesList(): List<Tree>? {
+        return api.forceGetTreesList().records?.map { it.mapRecordToTree() }
+    }
 }

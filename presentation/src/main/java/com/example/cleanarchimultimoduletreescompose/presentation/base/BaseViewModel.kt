@@ -2,7 +2,8 @@ package com.example.cleanarchimultimoduletreescompose.presentation.base
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.common.managers.ConnectionManager
+import com.example.domain.managers.ConnectionManager
+import com.example.domain.fetchstrategy.FetchStrategy
 
 open class BaseViewModel(
     private val connectionManager: ConnectionManager
@@ -21,5 +22,15 @@ open class BaseViewModel(
     override fun onCleared() {
         super.onCleared()
         connectionManager.removeListener(this)
+    }
+
+    protected fun getFetchStrategy(force : Boolean) : FetchStrategy {
+        return when (!connectionManager.offline) {
+            true -> {
+                if(force) FetchStrategy.Remote
+                else FetchStrategy.Cache
+            }
+            false -> FetchStrategy.Local
+        }
     }
 }

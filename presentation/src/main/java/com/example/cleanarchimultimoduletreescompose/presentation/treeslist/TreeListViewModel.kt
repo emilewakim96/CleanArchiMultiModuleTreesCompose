@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.cleanarchimultimoduletreescompose.presentation.base.BaseViewModel
 import com.example.cleanarchimultimoduletreescompose.presentation.event.RxBus
 import com.example.cleanarchimultimoduletreescompose.presentation.event.TreeEvents
-import com.example.common.managers.ConnectionManager
+import com.example.domain.managers.ConnectionManager
 import com.example.data.data_source.util.DispatcherProvider
 import com.example.domain.use_case.TreesUseCases
 import com.example.domain.entities.TreeEntity
@@ -31,7 +31,7 @@ class TreeListViewModel @Inject constructor(
     private var deleteTreeDisposable: Disposable? = null
 
     init {
-        loadTreeList()
+        loadTreeList(forceRefresh = false)
 
         deleteTreeDisposable = RxBus.publishEventObservable
             .ofType(TreeEvents::class.java)
@@ -42,10 +42,10 @@ class TreeListViewModel @Inject constructor(
             }
     }
 
-    fun loadTreeList() {
+    fun loadTreeList(forceRefresh: Boolean) {
         viewModelScope.launch(dispatcher.main) {
             isLoading.value = true
-            when(val result = treesUseCases.getTreesUseCase()) {
+            when(val result = treesUseCases.getTreesUseCase(getFetchStrategy(forceRefresh))) {
                 is Resource.Success -> {
                     val trees = result.data
                     trees?.let {

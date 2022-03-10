@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,17 +19,28 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private fun buildOkHttpClient(): OkHttpClient =
-        OkHttpClient.Builder()
+    private fun buildOkHttpClient(context: Context): OkHttpClient {
+        val cacheSize = (5 * 1024 * 1024).toLong()
+        val myCache = Cache(context.cacheDir, cacheSize)
+        return OkHttpClient.Builder()
             .connectTimeout(10L, TimeUnit.SECONDS)
             .writeTimeout(10L, TimeUnit.SECONDS)
             .readTimeout(30L, TimeUnit.SECONDS)
-//            .addInterceptor(RequestInterceptor())
+            .cache(myCache)
+            .addInterceptor { chain ->
+                var request = chain.request()
+                /* Get the cache that was stored 60 seconds ago.
+                *  If the cache is older than 60 seconds, then discard it and indicate an error in fetching the response.
+                *  The 'max-age' attribute is responsible for this behavior */
+                request = request.newBuilder().header("Cache-Control", "public, max-age=" + 60).build()
+                chain.proceed(request)
+            }
             .build()
+    }
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient = buildOkHttpClient()
+    fun provideOkHttpClient(context: Context): OkHttpClient = buildOkHttpClient(context)
 
     @Singleton
     @Provides

@@ -59,7 +59,7 @@ fun TreeList(navigator: DestinationsNavigator,
     SwipeRefresh(
         state = swipeRefreshState,
         onRefresh = {
-            viewModel.loadTreeList()
+            viewModel.loadTreeList(forceRefresh = true)
         },
     ) {
         Column {
@@ -89,7 +89,7 @@ fun TreeList(navigator: DestinationsNavigator,
         }
         if(loadError.isNotEmpty()) {
             RetrySection(error = loadError) {
-                viewModel.loadTreeList()
+                viewModel.loadTreeList(forceRefresh = true)
             }
         }
     }
