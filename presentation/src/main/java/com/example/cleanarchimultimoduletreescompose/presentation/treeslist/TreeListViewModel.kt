@@ -63,7 +63,7 @@ class TreeListViewModel @Inject constructor(
         }
     }
 
-    private fun removeTreeFromList(tree: TreeEntity) {
+    fun removeTreeFromList(tree: TreeEntity) {
         viewModelScope.launch(dispatcher.main) {
             isLoading.value = true
             when(val result = treesUseCases.deleteTreeUseCase(tree)) {

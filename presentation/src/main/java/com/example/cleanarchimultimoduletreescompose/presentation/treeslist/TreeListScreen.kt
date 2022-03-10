@@ -1,17 +1,27 @@
 package com.example.cleanarchimultimoduletreescompose.presentation.treeslist
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +33,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@ExperimentalMaterialApi
 @Destination(
     start = true,
     route = "trees_screen")
@@ -45,6 +56,7 @@ fun TreesListScreen(navigator: DestinationsNavigator) {
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun TreeList(navigator: DestinationsNavigator,
              viewModel: TreeListViewModel = hiltViewModel()
@@ -53,6 +65,7 @@ fun TreeList(navigator: DestinationsNavigator,
     val loadError = viewModel.loadError.value  /* no need to use remember for viewModel variables */
     val isLoading = viewModel.isLoading.value
     val isOffline = viewModel.isOffline.value
+    val treesList = viewModel.treesList
 
     val swipeRefreshState = rememberSwipeRefreshState(viewModel.isLoading.value)
 
@@ -72,9 +85,68 @@ fun TreeList(navigator: DestinationsNavigator,
                 )
             }
             LazyColumn(modifier = Modifier.padding(bottom = 50.dp)) {
-                items(viewModel.treesList) { tree ->
-                    TreeCard(navigator = navigator, tree = tree)
-                    Spacer(modifier = Modifier.height(5.dp))
+                items(items = treesList) { tree ->
+                    val dismissState = rememberDismissState()
+
+                    if (dismissState.isDismissed(DismissDirection.EndToStart)) {
+                        LaunchedEffect(key1 = true, block = {
+                            viewModel.removeTreeFromList(tree)
+                            dismissState.snapTo(DismissValue.Default)
+                        })
+                    }
+                    SwipeToDismiss(
+                        state = dismissState,
+                        modifier = Modifier
+                            .padding(vertical = Dp(1f)),
+                        directions = setOf(
+                            DismissDirection.EndToStart
+                        ),
+                        dismissThresholds = { direction ->
+                            FractionalThreshold(if (direction == DismissDirection.EndToStart) 0.1f else 0.05f)
+                        },
+                        background = {
+                            val color by animateColorAsState(
+                                when (dismissState.targetValue) {
+                                    DismissValue.Default -> Color.White
+                                    else -> Color.Red
+                                }
+                            )
+                            val alignment = Alignment.CenterEnd
+                            val icon = Icons.Default.Delete
+
+                            val scale by animateFloatAsState(
+                                if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
+                            )
+
+                            Box(
+                                Modifier
+                                    .fillMaxSize()
+                                    .background(color)
+                                    .padding(horizontal = Dp(20f)),
+                                contentAlignment = alignment
+                            ) {
+                                Icon(
+                                    icon,
+                                    contentDescription = "Delete Icon",
+                                    modifier = Modifier.scale(scale)
+                                )
+                            }
+                        },
+                        dismissContent = {
+
+                            Card(
+                                elevation = animateDpAsState(
+                                    if (dismissState.dismissDirection != null) 4.dp else 0.dp
+                                ).value,
+                                modifier = Modifier
+                                    .align(alignment = Alignment.CenterVertically)
+                            ) {
+                                TreeCard(navigator = navigator, tree = tree)
+                            }
+                        }
+                    )
+
+                    Divider(Modifier.fillMaxWidth(), Color.DarkGray)
                 }
             }
         }
@@ -97,6 +169,7 @@ fun TreeList(navigator: DestinationsNavigator,
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun TreeCard(navigator: DestinationsNavigator, tree: TreeEntity) {
     val context = LocalContext.current
