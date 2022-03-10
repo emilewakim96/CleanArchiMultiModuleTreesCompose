@@ -145,8 +145,6 @@ fun TreeList(navigator: DestinationsNavigator,
                             }
                         }
                     )
-
-                    Divider(Modifier.fillMaxWidth(), Color.DarkGray)
                 }
             }
         }
