@@ -87,7 +87,9 @@ fun TreeList(navigator: DestinationsNavigator,
         if(isLoading) {
             CircularProgressIndicator(color = MaterialTheme.colors.primary)
         }
-        if(loadError.isNotEmpty()) {
+        if(isLoading) {
+            CircularProgressIndicator(color = MaterialTheme.colors.primary)
+        } else if(loadError.isNotEmpty() || viewModel.treesList.isNullOrEmpty()) {
             RetrySection(error = loadError) {
                 viewModel.loadTreeList(forceRefresh = true)
             }
