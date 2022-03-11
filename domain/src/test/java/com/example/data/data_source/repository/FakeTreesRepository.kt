@@ -15,4 +15,7 @@ class FakeTreesRepository: TreesRepository {
         trees.add(tree)
     }
 
+    override suspend fun deleteTree(tree: TreeEntity) {
+        trees.remove(tree)
+    }
 }

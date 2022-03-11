@@ -2,11 +2,13 @@ package com.example.cleanarchimultimoduletreescompose.presentation.util
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.navigation.NavBackStackEntry
 import com.example.cleanarchimultimoduletreescompose.presentation.destinations.TreesListScreenDestination
 import com.example.cleanarchimultimoduletreescompose.presentation.navDestination
 import com.ramcosta.composedestinations.spec.DestinationStyle
 
+@ExperimentalMaterialApi
 @OptIn(ExperimentalAnimationApi::class)
 object TreesTransitions : DestinationStyle.Animated {
     override fun AnimatedContentScope<NavBackStackEntry>.enterTransition(): EnterTransition? {

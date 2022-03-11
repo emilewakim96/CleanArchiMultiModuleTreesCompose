@@ -1,6 +1,7 @@
 package com.example.domain.di
 
 import com.example.domain.repository.TreesRepository
+import com.example.domain.use_case.DeleteTreesUseCase
 import com.example.domain.use_case.GetTreesUseCase
 import com.example.domain.use_case.TreesUseCases
 import dagger.Module
@@ -17,7 +18,8 @@ object UseCaseModule {
     @Provides
     fun provideTreesUseCases(repository: TreesRepository): TreesUseCases {
         return TreesUseCases(
-            getTreesUseCase = GetTreesUseCase(repository)
+            getTreesUseCase = GetTreesUseCase(repository),
+            deleteTreesUseCase = DeleteTreesUseCase(repository)
         )
     }
 }

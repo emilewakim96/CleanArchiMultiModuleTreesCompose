@@ -51,4 +51,8 @@ class TreesRepositoryImpl @Inject constructor(
             cachedTrees = it
         }
     }
+
+    override suspend fun deleteTree(tree: TreeEntity) {
+        localDataSource.deleteTree(tree)
+    }
 }

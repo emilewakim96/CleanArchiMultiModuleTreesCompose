@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,11 +17,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cleanarchimultimoduletreescompose.R
+import com.example.cleanarchimultimoduletreescompose.presentation.event.RxBus
+import com.example.cleanarchimultimoduletreescompose.presentation.event.TreeEvents
 import com.example.cleanarchimultimoduletreescompose.presentation.util.TreesTransitions
 import com.example.domain.entities.TreeEntity
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@ExperimentalMaterialApi
 @Destination(route = "trees_screen/details", style = TreesTransitions::class)
 @Composable
 fun TreeDetailScreen(navigator: DestinationsNavigator, tree: TreeEntity) {
@@ -47,6 +51,19 @@ fun TreeDetailScreen(navigator: DestinationsNavigator, tree: TreeEntity) {
                             .align(Alignment.CenterVertically)
                             .size(30.dp)
                             .clickable {
+                                navigator.popBackStack()
+                            }
+                    )
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null,
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .padding(top = (7.5).dp)
+                            .align(Alignment.CenterVertically)
+                            .size(30.dp)
+                            .clickable {
+                                RxBus.publishEvent(TreeEvents.OnDelete(tree))
                                 navigator.popBackStack()
                             }
                     )

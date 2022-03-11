@@ -7,4 +7,6 @@ interface TreesRepository {
     suspend fun getTreesList(): List<TreeEntity>?
 
     suspend fun saveTree(tree: TreeEntity)
+
+    suspend fun deleteTree(tree: TreeEntity)
 }
