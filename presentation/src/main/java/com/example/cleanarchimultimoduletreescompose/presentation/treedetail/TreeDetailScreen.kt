@@ -24,6 +24,7 @@ import com.example.domain.entities.TreeEntity
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@ExperimentalMaterialApi
 @Destination(route = "trees_screen/details", style = TreesTransitions::class)
 @Composable
 fun TreeDetailScreen(navigator: DestinationsNavigator, tree: TreeEntity) {

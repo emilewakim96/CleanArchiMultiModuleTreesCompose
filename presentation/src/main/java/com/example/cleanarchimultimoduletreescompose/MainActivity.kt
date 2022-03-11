@@ -53,6 +53,7 @@ fun MainScreenView() {
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun BottomNavigation(navController: NavController) {
     val items = listOf(
