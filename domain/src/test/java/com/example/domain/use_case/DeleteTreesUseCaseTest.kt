@@ -4,12 +4,10 @@ import com.example.data.data_source.repository.FakeTreesRepository
 import com.example.domain.entities.TreeEntity
 import com.google.common.truth.Truth
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
-
 import org.junit.Before
 import org.junit.Test
 
-class DeleteTreeUseCaseTest {
+class DeleteTreesUseCaseTest {
 
     private lateinit var deleteTrees: DeleteTreesUseCase
     private lateinit var fakeTreesRepository: FakeTreesRepository

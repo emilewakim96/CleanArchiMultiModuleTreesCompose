@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.cleanarchimultimoduletreescompose.R
 import com.example.cleanarchimultimoduletreescompose.presentation.event.RxBus
 import com.example.cleanarchimultimoduletreescompose.presentation.event.TreeEvents
+import com.example.cleanarchimultimoduletreescompose.presentation.util.TestConstants.DELETE_TREE_BUTTON_FROM_DETAILS
 import com.example.cleanarchimultimoduletreescompose.presentation.util.TreesTransitions
 import com.example.domain.entities.TreeEntity
 import com.ramcosta.composedestinations.annotation.Destination
@@ -62,6 +64,7 @@ fun TreeDetailScreen(navigator: DestinationsNavigator, tree: TreeEntity) {
                             .padding(top = (7.5).dp)
                             .align(Alignment.CenterVertically)
                             .size(30.dp)
+                            .testTag(DELETE_TREE_BUTTON_FROM_DETAILS)
                             .clickable {
                                 RxBus.publishEvent(TreeEvents.OnDelete(tree))
                                 navigator.popBackStack()

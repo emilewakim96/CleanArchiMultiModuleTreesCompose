@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.cleanarchimultimoduletreescompose.R
 import com.example.cleanarchimultimoduletreescompose.presentation.destinations.TreeDetailScreenDestination
+import com.example.cleanarchimultimoduletreescompose.presentation.util.TestConstants.TREE_RECORD
 import com.example.domain.entities.TreeEntity
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -141,7 +143,7 @@ fun TreeList(navigator: DestinationsNavigator,
                                 modifier = Modifier
                                     .align(alignment = Alignment.CenterVertically)
                             ) {
-                                TreeCard(navigator = navigator, tree = tree)
+                                TreeCard(navigator = navigator, tree = tree, modifier = Modifier.testTag(TREE_RECORD + tree.id))
                             }
                         }
                     )
@@ -171,11 +173,16 @@ fun TreeList(navigator: DestinationsNavigator,
 
 @ExperimentalMaterialApi
 @Composable
-fun TreeCard(navigator: DestinationsNavigator, tree: TreeEntity) {
+fun TreeCard(
+    modifier: Modifier = Modifier,
+    navigator: DestinationsNavigator,
+    tree: TreeEntity
+) {
     val context = LocalContext.current
-    Column(modifier = Modifier.clickable {
-        navigator.navigate(TreeDetailScreenDestination(tree))
-    }) {
+    Column(modifier = modifier
+        .clickable {
+            navigator.navigate(TreeDetailScreenDestination(tree))
+        }) {
         Divider(color = Color.Black, thickness = 1.dp)
         Spacer(modifier = Modifier.height(15.dp))
         Text(
