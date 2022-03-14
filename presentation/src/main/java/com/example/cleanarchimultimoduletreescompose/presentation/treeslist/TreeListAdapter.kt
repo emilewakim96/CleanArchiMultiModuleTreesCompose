@@ -1,6 +1,5 @@
 package com.example.cleanarchimultimoduletreescompose.presentation.treeslist
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -33,11 +32,10 @@ class TreeListAdapter(private val itemList: MutableList<Tree> = mutableListOf(),
 
     override fun getItemCount(): Int = itemList.size
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateTreeList(list: List<Tree>) {
         itemList.clear()
         itemList.addAll(list)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, itemList.size - 1)
     }
 
     interface OnItemClickListener {

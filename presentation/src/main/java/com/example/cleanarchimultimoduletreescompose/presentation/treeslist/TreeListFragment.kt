@@ -37,6 +37,8 @@ class TreeListFragment: BaseFragment(), TreeListAdapter.OnItemClickListener {
         //When using livedata/flows inside binding implementation, we should specify the lifecycle owner
         binding.lifecycleOwner = this.viewLifecycleOwner
 
+        binding.clickMeButton = this
+
         //Set adapter, divider and default animator to the recycler view
         treeListAdapter = TreeListAdapter(listener = this)
         val dividerItemDecoration = DividerItemDecoration(
@@ -59,6 +61,10 @@ class TreeListFragment: BaseFragment(), TreeListAdapter.OnItemClickListener {
         collectLatestLifecycleFlow(viewModel.treesList) {
             updateTreeList(it)
         }
+    }
+
+    fun onClickMeButtonClick() {
+        println("EMILE")
     }
 
     private fun updateTreeList(list: List<Tree>) {
