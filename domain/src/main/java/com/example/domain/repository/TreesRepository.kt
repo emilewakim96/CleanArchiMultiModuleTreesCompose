@@ -1,10 +1,11 @@
 package com.example.domain.repository
 
 import com.example.domain.entities.TreeEntity
+import kotlinx.coroutines.flow.Flow
 
 interface TreesRepository {
 
-    suspend fun getTreesList(): List<TreeEntity>?
+    suspend fun getTreesList(): Flow<List<TreeEntity>?>
 
     suspend fun saveTree(tree: TreeEntity)
 

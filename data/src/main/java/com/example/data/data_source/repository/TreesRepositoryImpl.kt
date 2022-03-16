@@ -8,6 +8,7 @@ import com.example.domain.util.Resource
 import com.example.data.di.qualifier.LocalData
 import com.example.domain.entities.TreeEntity
 import com.example.domain.repository.TreesRepository
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class TreesRepositoryImpl @Inject constructor(
@@ -19,11 +20,13 @@ class TreesRepositoryImpl @Inject constructor(
     private var cachedTrees: List<TreeEntity>? = listOf()
     private var cachedTreesIsDirty = false
 
-    override suspend fun getTreesList(): List<TreeEntity>? {
+    override suspend fun getTreesList(): Flow<List<TreeEntity>?> {
         cachedTreesIsDirty = !connectionManager.offline
 
         if (!cachedTrees.isNullOrEmpty() && !cachedTreesIsDirty) {
-            return cachedTrees
+            return flow {
+                emit(cachedTrees)
+            }
         }
         return if (cachedTreesIsDirty) {
             getAndSaveRemoteTrees()
@@ -36,19 +39,21 @@ class TreesRepositoryImpl @Inject constructor(
         localDataSource.saveTree(tree)
     }
 
-    private suspend fun getAndSaveRemoteTrees(): List<TreeEntity>? {
-        return remoteDataSource.getTreesList().also { trees ->
-            trees?.forEach { tree ->
-                saveTree(tree)
+    private suspend fun getAndSaveRemoteTrees(): Flow<List<TreeEntity>?> {
+        return remoteDataSource.getTreesList().also { flow ->
+            flow.onEach { trees ->
+                trees?.forEach { tree ->
+                    saveTree(tree)
+                }
+                cachedTrees = trees
+                cachedTreesIsDirty = false
             }
-            cachedTrees = trees
-            cachedTreesIsDirty = false
         }
     }
 
-    private suspend fun getAndCacheLocalTrees(): List<TreeEntity> {
+    private suspend fun getAndCacheLocalTrees(): Flow<List<TreeEntity>?> {
         return localDataSource.getTreesList().also {
-            cachedTrees = it
+            cachedTrees = it.first()
         }
     }
 

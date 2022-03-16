@@ -17,6 +17,7 @@ import com.example.domain.errorhandler.showErrorMessage
 import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,19 +49,21 @@ class TreeListViewModel @Inject constructor(
     fun loadTreeList() {
         viewModelScope.launch(dispatcher.main) {
             isLoading.value = true
-            when(val result = treesUseCases.getTreesUseCase()) {
-                is Resource.Success -> {
-                    val trees = result.data
-                    trees?.let {
-                        treesList.clear()
-                        treesList.addAll(it)
+            treesUseCases.getTreesUseCase().collectLatest { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        val trees = result.data
+                        trees?.let {
+                            treesList.clear()
+                            treesList.addAll(it)
+                        }
+                        loadError.value = ""
+                        isLoading.value = false
                     }
-                    loadError.value = ""
-                    isLoading.value = false
-                }
-                else -> {
-                    loadError.value = result.error?.showErrorMessage() ?: "Invalid response"
-                    isLoading.value = false
+                    else -> {
+                        loadError.value = result.error?.showErrorMessage() ?: "Invalid response"
+                        isLoading.value = false
+                    }
                 }
             }
         }
