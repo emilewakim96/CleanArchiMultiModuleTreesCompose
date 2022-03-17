@@ -8,11 +8,13 @@
         <entry key="data/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="domain/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="domain/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="presentation/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="presentation/src/main/res/drawable/ic_bookmark.xml" value="0.118" />
+        <entry key="presentation/src/main/res/layout/activity_main.xml" value="0.356201171875" />
         <entry key="presentation/src/main/res/layout/fragment_tree_details.xml" value="0.1" />
         <entry key="presentation/src/main/res/layout/fragment_tree_list.xml" value="0.1" />
         <entry key="presentation/src/main/res/layout/layout_tree_item.xml" value="0.165" />
         <entry key="presentation/src/main/res/layout/main_activity.xml" value="0.15307971014492755" />
+        <entry key="presentation/src/main/res/menu/bottom_menu_nav.xml" value="0.39166666666666666" />
       </map>
     </option>
   </component>

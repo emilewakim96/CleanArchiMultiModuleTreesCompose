@@ -14,14 +14,7 @@ import com.google.gson.Gson
 class TreeDetailFragment: BaseFragment() {
 
     companion object {
-        val tag: String = TreeDetailFragment::class.java.simpleName
         const val TREE = "TREE"
-
-        fun newInstance(args: Bundle?): TreeDetailFragment {
-            val fragment = TreeDetailFragment()
-            fragment.arguments = args
-            return fragment
-        }
     }
 
     private lateinit var binding: FragmentTreeDetailsBinding
@@ -40,7 +33,7 @@ class TreeDetailFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tree = Gson().fromJson(arguments?.getSerializable(TREE) as String, Tree::class.java)
+        val tree = arguments?.getParcelable(TREE) as? Tree
 
         tree?.let {
             binding.tree = it

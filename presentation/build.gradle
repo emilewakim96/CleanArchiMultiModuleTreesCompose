@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -88,6 +89,10 @@ dependencies {
 
     //Databinding
     kapt "androidx.databinding:databinding-common:7.1.1"
+
+    // Navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.0-alpha03"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.0-alpha03"
 
     // mockito
     testImplementation 'org.mockito:mockito-core:4.3.1'

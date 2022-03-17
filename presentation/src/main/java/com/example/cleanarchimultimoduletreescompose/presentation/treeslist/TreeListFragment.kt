@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,14 +14,11 @@ import com.example.cleanarchimultimoduletreescompose.MainActivity
 import com.example.cleanarchimultimoduletreescompose.R
 import com.example.cleanarchimultimoduletreescompose.databinding.FragmentTreeListBinding
 import com.example.cleanarchimultimoduletreescompose.presentation.treedetail.TreeDetailFragment
+import com.example.cleanarchimultimoduletreescompose.presentation.treedetail.TreeDetailFragment.Companion.TREE
 import com.example.cleanarchimultimoduletreescompose.ui.base.BaseFragment
 import com.example.domain.models.Tree
 
 class TreeListFragment: BaseFragment(), TreeListAdapter.OnItemClickListener {
-
-    companion object {
-        val tag: String = TreeListFragment::class.java.simpleName
-    }
 
     private var treeListAdapter: TreeListAdapter? = null
     private lateinit var binding: FragmentTreeListBinding
@@ -72,6 +70,8 @@ class TreeListFragment: BaseFragment(), TreeListAdapter.OnItemClickListener {
     }
 
     override fun onTreeItemClick(tree: Tree) {
-        (activity as MainActivity).loadFragment(TreeDetailFragment.tag, isAddToBackStack = true, params = listOf(tree))
+        val bundle = Bundle()
+        bundle.putParcelable(TREE , tree)
+        findNavController().navigate(R.id.action_treesListFragment_to_treeDetailsFragment, bundle)
     }
 }

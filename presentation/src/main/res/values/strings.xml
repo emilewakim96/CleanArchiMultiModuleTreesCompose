@@ -8,4 +8,6 @@
     <string name="tree_circumference">Circonference: %1$s </string>
     <string name="tree_address">Address: %1$s </string>
     <string name="click_me">click me</string>
+    <string name="home">Home</string>
+    <string name="other">Other</string>
 </resources>
